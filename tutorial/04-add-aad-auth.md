@@ -2,22 +2,18 @@
 
 在本练习中，你将扩展上一练习中的应用程序，以支持 Azure AD 的身份验证。 若要获取所需的 OAuth 访问令牌以调用 Microsoft Graph，这是必需的。 在此步骤中，将[.net 的 Microsoft 身份验证库（MSAL）](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet)集成到应用程序中。
 
-在名为**appsettings**的**GraphTutorial**目录中创建一个新文件。 将以下文本添加到该文件中。
+通过在包含**GraphTutorial**的目录中打开 CLI 并运行以下命令来初始化[.net 开发密钥存储](https://docs.microsoft.com/aspnet/core/security/app-secrets)。
 
-```json
-{
-  "appId": "YOUR_APP_ID_HERE",
-  "scopes": [
-    "User.Read",
-    "Calendars.Read"
-  ]
-}
+```Shell
+dotnet user-secrets init
 ```
 
-将`YOUR_APP_ID_HERE`替换为你在 Azure 门户中创建的应用程序 ID。
+接下来，使用以下命令将应用程序 ID 和所需范围的列表添加到机密存储区。 将`YOUR_APP_ID_HERE`替换为你在 Azure 门户中创建的应用程序 ID。
 
-> [!IMPORTANT]
-> 如果您使用的是源代码管理（如 git），现在是从源代码控制中排除**appsettings**文件以避免无意中泄漏您的应用程序 ID 的最佳时机。
+```Shell
+dotnet user-secrets set appId "YOUR_APP_ID_HERE"
+dotnet user-secrets set scopes "User.Read;Calendars.Read"
+```
 
 ## <a name="implement-sign-in"></a>实施登录
 
@@ -118,7 +114,6 @@
 
     ```csharp
     using Microsoft.Extensions.Configuration;
-    using System.IO;
     ```
 
 1. 将以下函数添加到 `Program` 类。
@@ -127,14 +122,12 @@
     static IConfigurationRoot LoadAppSettings()
     {
         var appConfig = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
+            .AddUserSecrets<Program>()
             .Build();
 
         // Check for required settings
         if (string.IsNullOrEmpty(appConfig["appId"]) ||
-            // Make sure there's at least one value in the scopes array
-            string.IsNullOrEmpty(appConfig["scopes:0"]))
+            string.IsNullOrEmpty(appConfig["scopes"]))
         {
             return null;
         }
@@ -155,7 +148,8 @@
     }
 
     var appId = appConfig["appId"];
-    var scopes = appConfig.GetSection("scopes").Get<string[]>();
+    var scopesString = appConfig["scopes"];
+    var scopes = scopesString.Split(';');
 
     // Initialize the auth provider with values from appsettings.json
     var authProvider = new DeviceCodeAuthProvider(appId, scopes);

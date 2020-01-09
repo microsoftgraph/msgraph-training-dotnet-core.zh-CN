@@ -20,18 +20,14 @@
 
 在继续之前，请添加一些以后将使用的其他依赖项。
 
-- 用于从 JSON 文件中读取应用程序配置的[Microsoft Extensions 配置](https://github.com/aspnet/Extensions)。
+- [UserSecrets](https://github.com/aspnet/extensions)要从[.net 开发密钥存储](https://docs.microsoft.com/aspnet/core/security/app-secrets)读取应用程序配置的扩展名为。
 - [用于 .net 的 Microsoft 身份验证库（MSAL）](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet)对用户进行身份验证并获取访问令牌。
 - [Microsoft graph .Net 客户端库](https://github.com/microsoftgraph/msgraph-sdk-dotnet)，以调用 microsoft graph。
-- [Microsoft graph .NET SDK 的身份验证提供程序](https://github.com/microsoftgraph/msgraph-sdk-dotnet-auth)，以使 Graph 客户端库能够在进行 API 调用时自动请求令牌。
 
 在 CLI 中运行以下命令来安装依赖项。
 
 ```Shell
-dotnet add package Microsoft.Extensions.Configuration --version 3.1.0
-dotnet add package Microsoft.Extensions.Configuration.FileExtensions --version 3.1.0
-dotnet add package Microsoft.Extensions.Configuration.Json --version 3.1.0
-dotnet add package Microsoft.Extensions.Configuration.Binder --version 3.1.0
+dotnet add package Microsoft.Extensions.Configuration.UserSecrets --version 3.1.0
 dotnet add package Microsoft.Identity.Client --version 4.7.1
 dotnet add package Microsoft.Graph --version 1.21.0
 ```
