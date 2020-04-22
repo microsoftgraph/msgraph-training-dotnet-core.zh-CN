@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-首先，使用[.Net CORE CLI](/dotnet/core/tools/?tabs=netcore2x)创建一个新的 .net core 控制台项目。
+首先，使用[.Net CORE CLI](/dotnet/core/tools/)创建一个新的 .net core 控制台项目。
 
 1. 在要创建项目的目录中打开命令行界面（CLI）。 运行以下命令。
 
@@ -27,9 +27,9 @@
 在 CLI 中运行以下命令来安装依赖项。
 
 ```Shell
-dotnet add package Microsoft.Extensions.Configuration.UserSecrets --version 3.1.0
-dotnet add package Microsoft.Identity.Client --version 4.7.1
-dotnet add package Microsoft.Graph --version 1.21.0
+dotnet add package Microsoft.Extensions.Configuration.UserSecrets --version 3.1.2
+dotnet add package Microsoft.Identity.Client --version 4.10.0
+dotnet add package Microsoft.Graph --version 3.0.1
 ```
 
 ## <a name="design-the-app"></a>设计应用程序
@@ -38,6 +38,56 @@ dotnet add package Microsoft.Graph --version 1.21.0
 
 在文本编辑器（如[Visual Studio Code](https://code.visualstudio.com/)）中打开**Program.cs** ，并将其全部内容替换为以下代码。
 
-[!code-csharp[](../demos/01-create-app/GraphTutorial/Program.cs)]
+```csharp
+using Microsoft.Extensions.Configuration;
+using System;
+
+namespace GraphTutorial
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(".NET Core Graph Tutorial\n");
+
+            int choice = -1;
+
+            while (choice != 0) {
+                Console.WriteLine("Please choose one of the following options:");
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("1. Display access token");
+                Console.WriteLine("2. List calendar events");
+
+                try
+                {
+                    choice = int.Parse(Console.ReadLine());
+                }
+                catch (System.FormatException)
+                {
+                    // Set to invalid value
+                    choice = -1;
+                }
+
+                switch(choice)
+                {
+                    case 0:
+                        // Exit the program
+                        Console.WriteLine("Goodbye...");
+                        break;
+                    case 1:
+                        // Display access token
+                        break;
+                    case 2:
+                        // List the calendar
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice! Please try again.");
+                        break;
+                }
+            }
+        }
+    }
+}
+```
 
 这将实现一个基本菜单，并从命令行读取用户的选择。
