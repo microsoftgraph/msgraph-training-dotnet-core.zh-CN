@@ -1,14 +1,14 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-首先使用 .NET Core CLI 创建新的 [.NET Core](/dotnet/core/tools/)控制台项目。
+首先，使用 .NET Core CLI 创建新的 [.NET Core](/dotnet/core/tools/)控制台项目。
 
-1. 在要创建项目的目录中 (CLI) 打开命令行界面。 运行以下命令。
+1. 在要创建项目的 (CLI) 打开命令行接口。 运行以下命令：
 
     ```Shell
     dotnet new console -o GraphTutorial
     ```
 
-1. 创建项目后，将当前目录更改为 **GraphTu一l** 目录，并运行 CLI 中的以下命令，验证项目是否正常工作。
+1. 创建项目后，验证其是否正常工作，方法为将当前目录更改到 **GraphTu一l** 目录，并运行 CLI 中的以下命令。
 
     ```Shell
     dotnet run
@@ -18,19 +18,19 @@
 
 ## <a name="install-dependencies"></a>安装依赖项
 
-在继续之前，添加一些稍后将使用的其他依赖项。
+在继续之前，添加一些你稍后将使用的附加依赖项。
 
-- [Microsoft.Extensions.Config审核。用于从](https://github.com/aspnet/extensions) [.NET](https://docs.microsoft.com/aspnet/core/security/app-secrets)开发密码存储读取应用程序配置的 UserSecret。
-- [Microsoft 身份验证库 (MSAL) .NET，](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) 以对用户进行身份验证并获取访问令牌。
-- [Microsoft Graph .NET 客户端](https://github.com/microsoftgraph/msgraph-sdk-dotnet) 库，以调用 Microsoft Graph。
-- [TimeZoneConverter，](https://github.com/mj1856/TimeZoneConverter) 用于将 Windows 时区标识符转换为 IANA 标识符。
+- [Microsoft.Extensions.Configuration。UserSecrets，](https://github.com/aspnet/extensions) 用于读取 .NET 开发密码存储 [中的应用程序配置](https://docs.microsoft.com/aspnet/core/security/app-secrets)。
+- [Azure Identity 的 Azure SDK](https://github.com/Azure/azure-sdk-for-net) 客户端库，用于对用户进行身份验证并获取访问令牌。
+- [Microsoft Graph .NET 客户端](https://github.com/microsoftgraph/msgraph-sdk-dotnet)库来调用 Microsoft Graph。
+- [TimeZoneConverter，](https://github.com/mj1856/TimeZoneConverter)用于Windows时区标识符转换为 IANA 标识符。
 
 在 CLI 中运行以下命令以安装依赖项。
 
 ```Shell
 dotnet add package Microsoft.Extensions.Configuration.UserSecrets --version 5.0.0
-dotnet add package Microsoft.Identity.Client --version 4.25.0
-dotnet add package Microsoft.Graph --version 3.22.0
+dotnet add package Azure.Identity --version 1.4.0
+dotnet add package Microsoft.Graph --version 4.0.0
 dotnet add package TimeZoneConverter
 ```
 
@@ -38,12 +38,13 @@ dotnet add package TimeZoneConverter
 
 在此部分中，你将创建一个简单的基于控制台的菜单。
 
-在文本Program.cs编辑器中打开 **./ (，Visual Studio**[代码](https://code.visualstudio.com/)) 并将其全部内容替换为以下代码。
+在 **文本编辑器中打开 ./Program.cs** (如 Visual Studio Code [](https://code.visualstudio.com/)) ，并将其全部内容替换为以下代码。
 
 ```csharp
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphTutorial
 {
@@ -97,4 +98,4 @@ namespace GraphTutorial
 }
 ```
 
-这将实现基本菜单，并读取命令行中的用户选择。
+这将实现一个基本菜单，并读取命令行中的用户选择。
